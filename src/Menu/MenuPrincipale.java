@@ -1,7 +1,10 @@
 package Menu;
 
-import Service.NouveauClientService;
+import Service.ScoreService;
+import Views.EmployeeView;
+import enums.TypeContrat;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,8 +12,9 @@ import java.util.Scanner;
 
 public class MenuPrincipale {
     private static Scanner sc = new Scanner(System.in);
-    private NouveauClientService nouveauClientService ;
-    public MenuPrincipale() {
+    private ScoreService scoreService= new ScoreService() ;
+    private EmployeeView employeeView = new EmployeeView();
+    public MenuPrincipale() throws SQLException {
         System.out.println("------------------Menu Principal--------------");
         System.out.println("1: vous etes un niveau Client");
         System.out.println("2: vous etes deja un  Client");
@@ -29,7 +33,7 @@ public class MenuPrincipale {
 
     }
 
-    private void menuNewCleint() {
+    private void menuNewCleint() throws SQLException {
 
         System.out.println("------------------Menu  nouveau Cleint --------------");
         System.out.println("1 compte Employee");
@@ -46,8 +50,8 @@ public class MenuPrincipale {
 
     }
 
-    private void MenuInfoEmploye() {
-        nouveauClientService = new NouveauClientService();
+    private void MenuInfoEmploye() throws SQLException {
+        scoreService = new ScoreService();
         System.out.println("----------------- Menu nouveau Employé --------------");
 
         System.out.print("Nom: ");
@@ -90,7 +94,8 @@ public class MenuPrincipale {
         String poste = sc.nextLine();
 
         System.out.print("Type de contrat (CDI, CDD, Freelance…): ");
-        String typeContrat = sc.nextLine();
+        String saisieContrat = sc.nextLine().toUpperCase(); // lire et mettre en majuscule
+        TypeContrat typeContrat = TypeContrat.valueOf(saisieContrat);
 
 
         System.out.print("Combient des anne de traville : ");
@@ -101,23 +106,7 @@ public class MenuPrincipale {
         String secteur = sc.nextLine();
 
         LocalDateTime createdAt = LocalDateTime.now();
-
-        // --- Calculs des scores ---
-        int scoreAge = nouveauClientService.calculScoreAge(dateDeNaissance);
-        int scoreSituation = nouveauClientService.calculScoreSituationFamiliale(situationFamiliale);
-        int scoreEnfants = nouveauClientService.calculScoreEnfants(nombreEnfants);
-
-        // Ici, si tu as des méthodes pour calculer le score salaire, ancienneté, poste, typeContrat, secteur, on peut les ajouter
-        // Exemple :
-         int scoreSalaire = nouveauClientService.calculScoreSalaire(salaire);
-        // int scoreAnciennete = nouveauClientService.calculScoreAnciennete(anciennete);
-
-        int totalScore = scoreAge + scoreSituation + scoreEnfants; // + scoreSalaire + scoreAnciennete + ...
-
-        System.out.println("Score âge: " + scoreAge);
-        System.out.println("Score situation familiale: " + scoreSituation);
-        System.out.println("Score enfants: " + scoreEnfants);
-        System.out.println("Score total: " + totalScore);
+        employeeView.ajoutEmployee(nom,prenom,dateDeNaissance,ville,nombreEnfants,investissement,placement,situationFamiliale,createdAt,salaire,anciennete,poste,typeContrat,secteur);
     }
 
 }

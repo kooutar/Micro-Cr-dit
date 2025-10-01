@@ -1,10 +1,17 @@
 package Service;
 
+import DAO.Reposetry.EmployeeReposetry;
+
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 
-public class NouveauClientService {
-
+public class ScoreService {
+     EmployeeReposetry newCleint=new EmployeeReposetry();
+      private int Score;
+    public ScoreService() throws SQLException {
+    }
 
     private  int calculeAge(LocalDate dateNaissance) {
         if (dateNaissance == null) {
@@ -130,6 +137,14 @@ public class NouveauClientService {
                 return 0; // sécurité
         }
     }
+
+    public  int scoreGlobale(LocalDate dateNaissance,String situation, int nombreEnfants, double salaire ,int anciennete){
+        int score = 0;
+        score = calculScoreAge(dateNaissance)+ calculScoreSituationFamiliale(situation) +calculScoreEnfants(nombreEnfants) +calculScoreSalaire(salaire)+ calculScoreAnciennete(anciennete);
+        return score;
+    }
+
+
 
 
 }
