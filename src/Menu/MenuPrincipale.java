@@ -1,112 +1,190 @@
 package Menu;
 
+import Service.CreditService;
 import Service.ScoreService;
+import Views.CreditView;
 import Views.EmployeeView;
+import enums.Decision;
+import enums.Secteur;
 import enums.TypeContrat;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuPrincipale {
     private static Scanner sc = new Scanner(System.in);
-    private ScoreService scoreService= new ScoreService() ;
+    private ScoreService scoreService = new ScoreService();
     private EmployeeView employeeView = new EmployeeView();
+    private CreditView creditView = new CreditView();
+
     public MenuPrincipale() throws SQLException {
         System.out.println("------------------Menu Principal--------------");
-        System.out.println("1: vous etes un niveau Client");
-        System.out.println("2: vous etes deja un  Client");
-        int choix = sc.nextInt();
-        sc.nextLine();
+        System.out.println("1: Vous êtes un nouveau Client");
+        System.out.println("2: Vous êtes déjà un Client");
+        System.out.println("3: Prendre un crédit");
+
+        int choix = lireInt("Votre choix: ");
         switch (choix) {
             case 1:
-                menuNewCleint();
+                menuNewClient();
+                break;
             case 2:
-                menuDejaCleint();
+                menuDejaClient();
+                break;
+            case 3:
+                menuCredit();
+                break;
+            default:
+                System.out.println("Choix invalide !");
+        }
+    }
+
+    private void menuCredit() throws SQLException {
+        System.out.println("------ Menu Crédit ------");
+
+        int idClient = lireInt("Entrez l'id du client : ");
+        double montant = lireDouble("Entrez le montant demandé : ");
+        double tauxInteret = lireDouble("Entrez le taux d'intérêt : ");
+        int dureeEnMois = lireInt("Entrez la durée en mois : ");
+        String typeCredit = lireString("Entrez le type de crédit : ");
+
+        // Gestion des erreurs pour l'enum Decision
+        Decision decision = null;
+        while (decision == null) {
+            try {
+                System.out.print("Entrez la décision (ACCORD_IMMEDIAT, REFUS_AUTOMATIQUE, ETUDE_MANUELLE) : ");
+                String saisieDecision = sc.nextLine().trim().toUpperCase();
+                 decision = Decision.valueOf(saisieDecision);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("⚠️ Décision invalide, réessayez !");
+            }
         }
 
+        creditView.ajoutCredit(idClient, montant, tauxInteret, dureeEnMois, typeCredit, decision);
     }
 
-    private void menuDejaCleint() {
-
+    private void menuDejaClient() {
+        System.out.println("⚠️ Fonctionnalité pas encore implémentée.");
     }
 
-    private void menuNewCleint() throws SQLException {
+    private void menuNewClient() throws SQLException {
+        System.out.println("------ Menu nouveau Client ------");
+        System.out.println("1: Compte Employé");
+        System.out.println("2: Compte Professionnel");
 
-        System.out.println("------------------Menu  nouveau Cleint --------------");
-        System.out.println("1 compte Employee");
-        System.out.println("2 compte Profesionnel");
-        int  choix = sc.nextInt();
-        sc.nextLine();
+        int choix = lireInt("Votre choix: ");
         switch (choix) {
             case 1:
-                MenuInfoEmploye();
+                menuInfoEmploye();
+                break;
             case 2:
+                System.out.println("⚠️ Menu Professionnel pas encore implémenté.");
+                break;
+            default:
+                System.out.println("Choix invalide !");
         }
-
-
-
     }
 
-    private void MenuInfoEmploye() throws SQLException {
+    private void menuInfoEmploye() throws SQLException {
         scoreService = new ScoreService();
-        System.out.println("----------------- Menu nouveau Employé --------------");
+        System.out.println("------ Nouveau Employé ------");
 
-        System.out.print("Nom: ");
-        String nom = sc.nextLine();
+        String nom = lireString("Nom : ");
+        String prenom = lireString("Prénom : ");
 
-        System.out.print("Prénom: ");
-        String prenom = sc.nextLine();
+        LocalDate dateDeNaissance = null;
+        while (dateDeNaissance == null) {
+            try {
+                String dateStr = lireString("Date de naissance (yyyy-MM-dd) : ");
+                dateDeNaissance = LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+            } catch (DateTimeParseException e) {
+                System.out.println("⚠️ Format de date invalide, utilisez yyyy-MM-dd !");
+            }
+        }
 
-        System.out.print("Date de naissance (yyyy-MM-dd): ");
-        String dateStr = sc.nextLine();
-        LocalDate dateDeNaissance = LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+        String ville = lireString("Ville : ");
+        String situationFamiliale = lireString("Situation familiale : ");
+        int nombreEnfants = lireInt("Nombre d'enfants : ");
+        boolean investissement = lireBoolean("Avez-vous des investissements (true/false) : ");
+        double placement = lireDouble("Placement : ");
+        double salaire = lireDouble("Salaire : ");
+        int anciennete = lireInt("Ancienneté (en années) : ");
+        String poste = lireString("Poste : ");
 
-        System.out.print("Ville: ");
-        String ville = sc.nextLine();
+        TypeContrat typeContrat = null;
+        while (typeContrat == null) {
+            try {
+                String saisieContrat = lireString("Type de contrat (CDI, CDD, INTERIM, FREELANCE) : ").toUpperCase();
+                typeContrat = TypeContrat.valueOf(saisieContrat);
+            } catch (IllegalArgumentException e) {
+                System.out.println("⚠️ Type de contrat invalide, réessayez !");
+            }
+        }
 
-        System.out.print("Situation familiale: ");
-        String situationFamiliale = sc.nextLine();
-
-        System.out.print("Nombre d'enfants: ");
-        int nombreEnfants = sc.nextInt();
-
-        System.out.print("Vous avez des investissements (true/false): ");
-        boolean investissement = sc.nextBoolean();
-
-        System.out.print("Placement: ");
-        double placement = sc.nextDouble();
-
-        sc.nextLine(); // consommer le saut de ligne restant
-
-        // --- Nouveaux champs ---
-        System.out.print("Salaire: ");
-        double salaire = sc.nextDouble();
-
-        System.out.print("Ancienneté (en années): ");
-        int anciennete = sc.nextInt();
-
-        sc.nextLine(); // consommer le saut de ligne restant
-
-        System.out.print("Poste: ");
-        String poste = sc.nextLine();
-
-        System.out.print("Type de contrat (CDI, CDD, Freelance…): ");
-        String saisieContrat = sc.nextLine().toUpperCase(); // lire et mettre en majuscule
-        TypeContrat typeContrat = TypeContrat.valueOf(saisieContrat);
-
-
-        System.out.print("Combient des anne de traville : ");
-        int auncinite = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("Secteur (public, grande_entreprise, PME): ");
-        String secteur = sc.nextLine();
+        Secteur secteur = null;
+        while (secteur == null) {
+            try {
+                String saisieSecteur = lireString("Secteur (PUBLIC, GRANDE_ENTREPRISE, PME) : ").toUpperCase();
+                secteur = Secteur.valueOf(saisieSecteur);
+            } catch (IllegalArgumentException e) {
+                System.out.println("⚠️ Secteur invalide, réessayez !");
+            }
+        }
 
         LocalDateTime createdAt = LocalDateTime.now();
-        employeeView.ajoutEmployee(nom,prenom,dateDeNaissance,ville,nombreEnfants,investissement,placement,situationFamiliale,createdAt,salaire,anciennete,poste,typeContrat,secteur);
+        employeeView.ajoutEmployee(
+                nom, prenom, dateDeNaissance, ville, nombreEnfants,
+                investissement, placement, situationFamiliale, createdAt,
+                salaire, anciennete, poste, typeContrat, secteur
+        );
     }
 
+    // ---- Méthodes utilitaires pour lire avec gestion d'erreurs ----
+    private int lireInt(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                return sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("⚠️ Veuillez entrer un entier valide !");
+                sc.nextLine();
+            }
+        }
+    }
+
+    private double lireDouble(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                return sc.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("⚠️ Veuillez entrer un nombre valide !");
+                sc.nextLine();
+            }
+        }
+    }
+
+    private boolean lireBoolean(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                return sc.nextBoolean();
+            } catch (InputMismatchException e) {
+                System.out.println("⚠️ Veuillez entrer true ou false !");
+                sc.nextLine();
+            }
+        }
+    }
+
+    private String lireString(String message) {
+        System.out.print(message);
+        sc.nextLine(); // vider le buffer si besoin
+        return sc.nextLine();
+    }
 }

@@ -10,20 +10,18 @@ public class Employe extends Persone{
     private int anciennete;        // en années
     private String poste;
     private TypeContrat typeContrat;    // ex: CDI, CDD
-    private Secteur secteur;        // PUBLIC, GRANDE_ENTREPRISE, PME
+    private Secteur secteur;
+    private  boolean estClient;
 
     // Constructeur
-    public Employe(String nom, String prenom, LocalDate dateNaissance, String ville,
-                   int nombreEnfants, boolean investissement, double placement,
-                   String situationFamiliale,
-                   double salaire, int anciennete, String poste,
-                   TypeContrat typeContrat, Secteur secteur) {
+    public Employe(String nom, String prenom, LocalDate dateNaissance, String ville, int nombreEnfants, boolean investissement, double placement, String situationFamiliale, double salaire, int anciennete, String poste, TypeContrat typeContrat, Secteur secteur,boolean estCleint) {
         super(nom, prenom, dateNaissance, ville, nombreEnfants, investissement, placement, situationFamiliale);
         this.salaire = salaire;
         this.anciennete = anciennete;
         this.poste = poste;
         this.typeContrat = typeContrat;
         this.secteur = secteur;
+        this.estClient=estCleint;
     }
 
     // Getters / Setters
@@ -41,6 +39,11 @@ public class Employe extends Persone{
 
     public Secteur getSecteur() { return secteur; }
     public void setSecteur(Secteur secteur) { this.secteur = secteur; }
+
+
+    public boolean getEstClient() {
+        return estClient;
+    }
 
     // Implémentation du calcul de score spécifique à un employé
     @Override

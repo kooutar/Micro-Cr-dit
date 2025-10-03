@@ -1,6 +1,8 @@
 package Service;
 
 import DAO.Reposetry.EmployeeReposetry;
+import enums.Secteur;
+import enums.TypeContrat;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -138,9 +140,39 @@ public class ScoreService {
         }
     }
 
-    public  int scoreGlobale(LocalDate dateNaissance,String situation, int nombreEnfants, double salaire ,int anciennete){
+    private int calculeScoreTypeContrat(TypeContrat typeContrat, Secteur secteur) {
         int score = 0;
-        score = calculScoreAge(dateNaissance)+ calculScoreSituationFamiliale(situation) +calculScoreEnfants(nombreEnfants) +calculScoreSalaire(salaire)+ calculScoreAnciennete(anciennete);
+
+        switch (typeContrat) {
+            case CDI:
+                switch (secteur) {
+                    case PUBLIC:
+                        score = 25;
+                        break;
+                    case GRANDE_ENTREPRISE:
+                        score = 15;
+                        break;
+                    case PME:
+                        score = 12;
+                        break;
+                }
+                break;
+            case CDD:
+            case INTERIM:
+                score = 10;
+                break;
+            default:
+                score = 0; // pour les autres cas comme Freelance, Stage, etc.
+                break;
+        }
+
+        return score;
+    }
+
+
+    public  int scoreGlobale(LocalDate dateNaissance,String situation, int nombreEnfants, double salaire ,int anciennete,TypeContrat typeContrat,Secteur secteur){
+        int score = 0;
+        score = calculScoreAge(dateNaissance)+ calculScoreSituationFamiliale(situation) +calculScoreEnfants(nombreEnfants) +calculScoreSalaire(salaire)+ calculScoreAnciennete(anciennete)+ calculeScoreTypeContrat(typeContrat,secteur);
         return score;
     }
 

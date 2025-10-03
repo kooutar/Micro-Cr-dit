@@ -1,6 +1,7 @@
 package Views;
 
 import Service.EmployeService;
+import enums.Secteur;
 import enums.TypeContrat;
 
 import java.sql.SQLException;
@@ -13,7 +14,10 @@ public class EmployeeView {
     public EmployeeView() throws SQLException {
     }
 
-    public void ajoutEmployee(String nom, String prenom, LocalDate dateDeNaissance, String ville, int nombreEnfants, boolean investissement, double placement, String situationFamiliale, LocalDateTime createdAt, Double salaire, int anciennete, String poste, TypeContrat typeContrat, String secteur) throws SQLException {
+    public void ajoutEmployee(String nom, String prenom, LocalDate dateDeNaissance, String ville, int nombreEnfants, boolean investissement, double placement, String situationFamiliale, LocalDateTime createdAt, Double salaire, int anciennete, String poste, TypeContrat typeContrat, Secteur secteur) throws SQLException {
         employeService.ajouterEmployee( nom,  prenom,  dateDeNaissance,  ville,  nombreEnfants,  investissement,  placement,  situationFamiliale,  createdAt, salaire, anciennete, poste, typeContrat, secteur);
+    }
+    public  void prendreCredit(int idCleint , double montant) throws SQLException {
+      employeService.prendreCredit(idCleint,montant);
     }
 }
