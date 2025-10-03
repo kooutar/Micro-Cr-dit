@@ -23,13 +23,13 @@ public class CreditService {
         double montantOctroye = 0.0;
 
         if (employe != null) {
-            if (!employe.getEstClient()) {
+            double score = employe.getScore();
+            if (!employe.getEstClient() && score >= 60 && score <= 80 ) {
                 // ----- Cas nouveau client -----
                 montantOctroye = employe.getSalaire() * 4;
                 creditReposetry.AjouterModifier(idClient,dateDeCredit,montantDemande,montantOctroye,tauxInteret,dureeEnMois,typeCredit,decision,idCredit);
             } else {
                 // ----- Cas client existant -----
-                double score = employe.getScore();
 
                 if (score >= 60 && score <= 80) {
                     montantOctroye = employe.getSalaire() * 7;
