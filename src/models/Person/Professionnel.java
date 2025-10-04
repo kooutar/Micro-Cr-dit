@@ -14,8 +14,8 @@ public class Professionnel extends Persone {
                          int nombreEnfants, boolean investissement, double placement,
                          String situationFamiliale,
                          double revenu, String immatriculationFiscale,
-                         String secteurActivite, String activite) {
-        super(nom, prenom, dateNaissance, ville, nombreEnfants, investissement, placement, situationFamiliale);
+                         String secteurActivite, String activite,double score) {
+        super(nom, prenom, dateNaissance, ville, nombreEnfants, investissement, placement, situationFamiliale,score);
         this.revenu = revenu;
         this.immatriculationFiscale = immatriculationFiscale;
         this.secteurActivite = secteurActivite;

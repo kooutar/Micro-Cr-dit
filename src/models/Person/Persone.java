@@ -18,7 +18,7 @@ public abstract class Persone {
 
     public Persone(String nom, String prenom, LocalDate dateNaissance, String ville,
                     int nombreEnfants, boolean investissement, double placement,
-                    String situationFamiliale) {
+                    String situationFamiliale,double score) {
         this.nom = nom;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
@@ -28,7 +28,7 @@ public abstract class Persone {
         this.placement = placement;
         this.situationFamiliale = situationFamiliale;
         this.createdAt = LocalDateTime.now();
-        this.score = 0.0;
+        this.score = score;
     }
 
     // Getters et Setters

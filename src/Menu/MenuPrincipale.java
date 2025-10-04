@@ -27,6 +27,7 @@ public class MenuPrincipale {
         System.out.println("1: Vous êtes un nouveau Client");
         System.out.println("2: Vous êtes déjà un Client");
         System.out.println("3: Prendre un crédit");
+        System.out.println("4 : payee credit");
 
         int choix = lireInt("Votre choix: ");
         switch (choix) {
@@ -39,9 +40,19 @@ public class MenuPrincipale {
             case 3:
                 menuCredit();
                 break;
+            case 4:
+                menuPayeeCredit();
+                break;
             default:
                 System.out.println("Choix invalide !");
         }
+    }
+
+    private void menuPayeeCredit() {
+       int idCredit =lireInt("Entrez id credit : ");
+       String datePayementString = lireString("Entrez date de payement");
+       LocalDate datePayement= LocalDate.parse(datePayementString);
+
     }
 
     private void menuCredit() throws SQLException {
@@ -54,19 +65,9 @@ public class MenuPrincipale {
         String typeCredit = lireString("Entrez le type de crédit : ");
 
         // Gestion des erreurs pour l'enum Decision
-        Decision decision = null;
-        while (decision == null) {
-            try {
-                System.out.print("Entrez la décision (ACCORD_IMMEDIAT, REFUS_AUTOMATIQUE, ETUDE_MANUELLE) : ");
-                String saisieDecision = sc.nextLine().trim().toUpperCase();
-                 decision = Decision.valueOf(saisieDecision);
 
-            } catch (IllegalArgumentException e) {
-                System.out.println("⚠️ Décision invalide, réessayez !");
-            }
-        }
 
-        creditView.ajoutCredit(idClient, montant, tauxInteret, dureeEnMois, typeCredit, decision);
+        creditView.ajoutCredit(idClient, montant, tauxInteret, dureeEnMois, typeCredit);
     }
 
     private void menuDejaClient() {

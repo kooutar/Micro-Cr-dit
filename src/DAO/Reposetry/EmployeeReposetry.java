@@ -112,7 +112,7 @@ public class EmployeeReposetry {
             boolean estClient = rs.getBoolean("estCleint");
             // Retourner un objet Personne (à créer si pas encore fait)
             return new Employe( nom, prenom, dateNaissance, ville, nombreEnfants, investissement, placement,
-                    situationFamiliale,  salaire, anciennete, poste, typeContrat, secteur,estClient);
+                    situationFamiliale,  salaire, anciennete, poste, typeContrat, secteur,estClient,score);
         } else {
             return null; // Aucun client trouvé
         }
@@ -137,6 +137,7 @@ public class EmployeeReposetry {
                 String situationFamiliale = rs.getString("situation_familiale");
                 LocalDateTime createdAt = rs.getTimestamp("createdAt").toLocalDateTime();
                 int score = rs.getInt("score");
+                System.out.println("estClient fct score "+ score);
                 double salaire = rs.getDouble("salaire");
                 int anciennete = rs.getInt("anciennete");
                 String poste = rs.getString("poste");
@@ -146,7 +147,7 @@ public class EmployeeReposetry {
 
                 // Retourner un objet Personne (à créer si pas encore fait)
                 return new Employe( nom, prenom, dateNaissance, ville, nombreEnfants, investissement, placement,
-                        situationFamiliale,  salaire, anciennete, poste, typeContrat, secteur,estClient);
+                        situationFamiliale,  salaire, anciennete, poste, typeContrat, secteur,estClient,score);
             }
         } catch (SQLException e) {
             e.printStackTrace();

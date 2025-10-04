@@ -14,14 +14,15 @@ public class Employe extends Persone{
     private  boolean estClient;
 
     // Constructeur
-    public Employe(String nom, String prenom, LocalDate dateNaissance, String ville, int nombreEnfants, boolean investissement, double placement, String situationFamiliale, double salaire, int anciennete, String poste, TypeContrat typeContrat, Secteur secteur,boolean estCleint) {
-        super(nom, prenom, dateNaissance, ville, nombreEnfants, investissement, placement, situationFamiliale);
+    public Employe(String nom, String prenom, LocalDate dateNaissance, String ville, int nombreEnfants, boolean investissement, double placement, String situationFamiliale, double salaire, int anciennete, String poste, TypeContrat typeContrat, Secteur secteur,boolean estCleint,double score) {
+        super(nom, prenom, dateNaissance, ville, nombreEnfants, investissement, placement, situationFamiliale,score);
         this.salaire = salaire;
         this.anciennete = anciennete;
         this.poste = poste;
         this.typeContrat = typeContrat;
         this.secteur = secteur;
         this.estClient=estCleint;
+
     }
 
     // Getters / Setters

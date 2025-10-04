@@ -12,8 +12,8 @@ public class CreditView {
     public CreditView() throws SQLException {
     }
 
-    public void ajoutCredit(int idClient , double Montant , double tauxInteret , int dureeEnMois , String typeCredit, Decision decision) throws SQLException {
-    creditService.ajoutCredit(idClient,Montant,tauxInteret, dureeEnMois,typeCredit,decision);
+    public void ajoutCredit(int idClient , double Montant , double tauxInteret , int dureeEnMois , String typeCredit)throws SQLException {
+    creditService.ajoutCredit(idClient,Montant,tauxInteret, dureeEnMois,typeCredit);
 
     }
 }

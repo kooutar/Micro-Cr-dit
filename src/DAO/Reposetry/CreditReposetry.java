@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public class CreditReposetry {
     private Connection connection;
+
     public CreditReposetry() throws SQLException {
         this.connection = BaseDonne.getInstance().getConnection();
     }
@@ -47,6 +48,7 @@ public class CreditReposetry {
             int rows = ps.executeUpdate();
             System.out.println(rows + " crédit(s) modifié(s).");
 
+
         } else {
             // ----- Cas ajout -----
             System.out.println("------ Ajout d’un nouveau crédit ------");
@@ -74,6 +76,7 @@ public class CreditReposetry {
 
             int rows = ps.executeUpdate();
             System.out.println(rows + " crédit(s) ajouté(s).");
+
         }
     }
 
